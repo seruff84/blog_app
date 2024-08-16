@@ -10,9 +10,13 @@ from .models import Post, Tag
 from .utils import *
 from .forms import TagForm,PostForm
 
+import socket
 # Create your views here.
 
 def posts_list(request):
+  
+  hostname = socket.gethostname()
+  
   search_query = request.GET.get('search', '')
   if search_query:
     posts = Post.objects.filter(Q(title__icontains=search_query) | Q(body__icontains=search_query))
@@ -41,7 +45,8 @@ def posts_list(request):
    'page_object': page,
    'is_paginated': is_paginated,
    'next_url': next_url,
-   'prev_url': prev_url
+   'prev_url': prev_url,
+   'hostname':hostname
     
   }
     
